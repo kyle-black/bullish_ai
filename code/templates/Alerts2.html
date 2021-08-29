@@ -1,20 +1,24 @@
 {% extends "layout.html" %}
 
 {%block content %}
-    
+    <h1><a href= "/" > Stocks ></i>
+        <i class = "angle double right icon"></i>
+        {{strategy.name}}
+    </h1>
 
 
 <h2> Stocks </h2>
 
-<form method="post" action="/delete_strategy">
+
+<form method="post" action="/apply_strategy">
     <select name="strategy_id">
-      {% for strategy in strategy_i %}
+      {% for strategy in strategies %}
       <option value="{{strategy.id}}">{{strategy.name}}</option>
 
       {% endfor %}
     </select>
 
-    
+    <input type="hidden" name="stock_id" value="{{stock.id}}" />
     <input type="submit" value="Apply Strategy" />
   </form>
 
@@ -25,15 +29,7 @@
 
 
 
-
-
-
-
-
-
-
-
-<table>
+<table class ="ui striped table">
     <thead>
 
         <tr>
@@ -45,9 +41,7 @@
     <tbody>
     {% for stock in stocks %}
 
-    <tr> 
-        
-        <td><input type="checkbox"></input></td>
+    <tr> <button type="button">Click Me!</button>
         <td>{{stock.symbol}} </td>
         <td>{{stock.name}}</td>
         <td>{{stock.strategy_id}}</td>

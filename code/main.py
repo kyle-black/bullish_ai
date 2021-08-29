@@ -129,7 +129,7 @@ def strategy(request: Request, strategy_id):
 
     stocks = cursor.fetchall()
 
-    return templates.TemplateResponse("strategy.html", {"request": request, "stocks": stocks, "strategy": strategy})
+    return templates.TemplateResponse("strategy.html", {"request": request, "stocks": stocks, "strategy_i": strategy})
 
 
 @app.get("/alerts")
@@ -162,15 +162,14 @@ def strategy(request: Request):
     return templates.TemplateResponse("Alerts.html", {"request": request, "stocks": main_stocks, "strategy": alerts, "deleted": delete_stocks})
 
 
-@app.post("/delete_strategy")
-def apply_strategy(strategy_id: int = (Form(...)), stock_id: int = Form(...)):
+app.post("/delete_strategy/{strategy_id}")
+
+
+def delete_data(strategy_id: int):
     connection = sqlite3.connect(config.DB_FILE)
     cursor = connection.cursor()
 
-    cursor.execute("""
-    INSERT INTO stock_strategy(stock_id,strategy_id) VALUES (?,?)""", (stock_id, strategy_id))
-    connection.commit()
-
-    cursor.execute(""" DELETE FROM stock_strategy VALUES(?,?)""")
+    cursor.execute(""" DELETE FROM stock_strategy WHERE strategy_id = (?)""",
+                   (strategy_id))
 
     return RedirectResponse(url=f"/alerts", status_code=303)
