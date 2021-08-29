@@ -1,0 +1,93 @@
+{% extends "layout.html" %} {% block content %}
+<body>
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="/">Assets</a>
+    <a href="/alerts"> My Patterns</a>
+    <a href="#">Research</a>
+    <a href="#">Settings</a>
+  </div>
+
+  <div id="main">
+    <button class="openbtn" onclick="openNav()">☰</button>
+
+    <h1><i class="angle double right icon"></i> {{stock.name}}</h1>
+    <h2>{{stock.symbol}}</h2>
+    <!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+      <div id="tradingview_2d82f"></div>
+
+      <script
+        type="text/javascript"
+        src="https://s3.tradingview.com/tv.js"
+      ></script>
+      <script type="text/javascript">
+        new TradingView.widget({
+          width: "90%",
+          height: 500,
+          right: 190,
+          symbol:
+            "{% if stock.exchange == 'ARCA' %}AMEX{% else %}{{stock.exchange}}{% endif %}:{{stock.symbol}}",
+          interval: "D",
+          timezone: "America/New_York",
+          theme: "dark",
+          style: "1",
+          locale: "en",
+          toolbar_bg: "#f1f3f6",
+          enable_publishing: false,
+          allow_symbol_change: false,
+        });
+      </script>
+    </div>
+    <!-- TradingView Widget END -->
+
+    <form method="post" action="/apply_strategy">
+      <select name="strategy_id">
+        {% for strategy in strategies %}
+        <option value="{{strategy.id}}">{{strategy.name}}</option>
+
+        {% endfor %}
+      </select>
+
+      <input type="hidden" name="stock_id" value="{{stock.id}}" />
+      <input type="submit" value="Apply Strategy" />
+    </form>
+
+    <table class="ui selectable inverted table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Open</th>
+          <th>High</th>
+          <th>Low</th>
+          <th>Close</th>
+          <th>Volume</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for bar in bars %}
+        <tr>
+          <td>{{bar.date}}</td>
+          <td>{{bar.open}}</td>
+          <td>{{bar.high}}</td>
+          <td>{{bar.low}}</td>
+          <td>{{bar.close}}</td>
+          <td>{{bar.volume}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  </script>
+</body>
+{% endblock %}

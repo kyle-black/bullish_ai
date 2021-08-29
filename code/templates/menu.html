@@ -1,0 +1,12 @@
+<link href="{{ url_for('static', path='stylesheet1.css') }}" rel="stylesheet" />
+{% extends "layout.html" %} {% block content %}
+<nav>
+  <h2>Drop Down Menu</h2>
+  <input id="toggle" type="checkbox" checked />
+  <ul>
+    <li><a href="#">Section 01</a></li>
+    <li><a href="#">Section 02</a></li>
+    <li><a href="#">Section 03</a></li>
+    <li><a href="#">Section 04</a></li>
+  </ul>
+</nav>

@@ -1,0 +1,179 @@
+<html>
+  <head>
+    <title>bullish.ai</title>
+  <link
+      href="{{ url_for('static', path='stylesheet1.css') }}"
+      rel="stylesheet"
+    />
+
+   <script src="../static/table.js"></script>
+  </head>
+  <body>
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      <a href="/">Assets</a>
+      <a href="/alerts"> My Patterns</a>
+      <a href="#">Research</a>
+      <a href="#">Settings</a>
+    </div>
+
+    <div id="main">
+      <button class="openbtn" onclick="openNav()">☰</button>
+
+    
+    
+    
+    
+    
+    
+    
+    <input
+    type="text"
+    id="myInput"
+    onkeyup="myFunction()"
+    placeholder="Search by Asset...">
+    
+
+
+    
+    
+
+
+
+
+    
+    <section>
+
+  
+    
+      <!--for demo wrap-->
+    
+      
+      <div class="tbl-header">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">Symbol</th>
+              <th>Asset</th>
+              <th onclick="sortTable(2)">Change(%)</th>
+              <th>Close($)</th>
+              <th>Low($)</th>
+              <th>High($)</th>
+              <th>Volume</th>
+              
+
+            </tr>
+
+
+          </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        
+        <table  id="MyTable1" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                {% for stock in stocks %}
+                <tr>
+                        
+                        <td>{{ stock.symbol }}</td>
+                        <td><a href="/stock/{{stock.symbol}}" style="color:white; text-decoration: none;">{{ stock.name }}</a></td>
+                        {% if indicator_values[stock.symbol] %}
+                            <td>{{ indicator_values[stock.symbol].PercentDiff|round(2) }}</td>
+                            
+                            {% if indicator_values[stock.symbol].close %}
+                                <td>{{ indicator_values[stock.symbol].close|round(2) }}</td>
+                            {% else %}
+                                <td>N/A</td>
+                            {% endif %}
+                            {% if indicator_values[stock.symbol].low %}
+                                <td>{{ indicator_values[stock.symbol].low|round(2) }}</td>
+                            {% else %}
+                                <td>N/A</td>
+                            {% endif %}
+                            {% if indicator_values[stock.symbol].high %}
+                                <td>{{ indicator_values[stock.symbol].high|round(2) }}</td>
+                            {% else %}
+                                <td>N/A</td>
+                            {% endif %}
+
+
+
+
+
+                            {% if indicator_values[stock.symbol].volume %}
+                                <td>{{ indicator_values[stock.symbol].volume|round(2) }}</td>
+                            {% else %}
+                                <td>N/A</td>
+                            {% endif %}
+
+
+                        {% endif %}
+
+                </tr>
+                {% endfor %}
+                
+        </tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <script>
+        function myFunction() {
+          // Declare variables
+          var input, filter, table, tr, td, i, txtValue;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("MyTable1");
+          tr = table.getElementsByTagName("tr");
+  
+          // Loop through all table rows, and hide those who don't match the search query
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+      
+      
+      
+        </script>
+         <script>
+          function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+          }
+      
+          function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+          }
+        </script>
+      
+        
+  
+    </section>
+  
+    
+   
+
+
+
+    
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

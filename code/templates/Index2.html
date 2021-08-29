@@ -1,0 +1,157 @@
+<html>
+  <head>
+    <title>bullish.ai</title>
+  <link
+      href="{{ url_for('static', path='stylesheet1.css') }}"
+      rel="stylesheet"
+    />
+
+   <script src="../static/table.js"></script>
+  </head>
+  <body>
+    <input
+    type="text"
+    id="myInput"
+    onkeyup="myFunction()"
+    placeholder="Search by Asset...">
+
+
+
+    
+    
+
+
+
+
+    
+    <section>
+
+  
+    
+      <!--for demo wrap-->
+    
+      
+      <div class="tbl-header">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Company</th>
+              <th>Price($)</th>
+              <th>SMA</th>
+              <th id="changepct" onclick="sortTable(0)">Change %</th>
+              <th>Volume</th>
+              
+
+            </tr>
+
+
+          </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        <table id="myTable" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                {% for stock in stocks %}
+                <tr>
+                        
+                        <td>{{ stock.symbol }}</td>
+                        <td><a href="/stock/{{stock.symbol}}" style="color:white; text-decoration: none;">{{ stock.name }}</a></td>
+                        {% if indicator_values[stock.symbol] %}
+                            <td>{{ indicator_values[stock.symbol].close }}</td>
+                            
+                            {% if indicator_values[stock.symbol].rsi_14 %}
+                                <td>{{ indicator_values[stock.symbol].rsi_14|round(2) }}</td>
+                            {% else %}
+                                <td>N/A</td>
+                            {% endif %}
+                            {% if indicator_values[stock.symbol].sma_20 %}
+                                <td>{{ indicator_values[stock.symbol].sma_20|round(2) }}</td>
+                            {% else %}
+                                <td>N/A</td>
+                            {% endif %}
+                            
+
+
+                            {% if indicator_values[stock.symbol].volume %}
+                                <td>{{ indicator_values[stock.symbol].volume|round(2) }}</td>
+                            {% else %}
+                                <td>N/A</td>
+                            {% endif %}
+
+
+                        {% endif %}
+
+                </tr>
+                {% endfor %}
+                
+        </tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <script>
+        function myFunction() {
+          // Declare variables
+          var input, filter, table, tr, td, i, txtValue;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("myTable");
+          tr = table.getElementsByTagName("tr");
+  
+          // Loop through all table rows, and hide those who don't match the search query
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+      </script>
+  
+    </section>
+  
+    <script>
+        /* When the user clicks on the button, 
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+          document.getElementById("myDropdown").classList.toggle("show");
+        }
+        
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
+        </script>
+    
+   
+
+
+
+    
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
