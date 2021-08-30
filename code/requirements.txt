@@ -1,0 +1,4 @@
+alpaca-trade-api
+sqlite3
+fastapi
+tulipy
