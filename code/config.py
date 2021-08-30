@@ -3,7 +3,7 @@ SECRET_KEY = 'Q6QwvYLlDhe7qq0LyV4ZQZ3boQ8bkM9At6igmvy0'
 API_URL = 'https://paper-api.alpaca.markets'
 #DB_FILE = '/Users/kyleblack/desktop/bullish_ai/data/app.db'
 POLYGON_KEY = 'e6pUMs5PrpkOYBpi7NqTcsgr4Ex80lWz'
-DB_FILE = '/home/ubuntu/bullish_ai/data'
+DB_FILE = '/home/ubuntu/bullish_ai/data/app.db'
 
 
 EMAIL_ADDRESS = 'kpblack87@gmail.com'
